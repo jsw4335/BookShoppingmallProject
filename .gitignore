@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# 환경 변수 파일
+.env
+
+# 임시 실행 파일
+tempCodeRunnerFile.js
+
+# 시스템 파일 (윈도우, 엑셀 임시 파일 등)
+~$*
+.DS_Store
+
+# 로그
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
