@@ -47,7 +47,8 @@ INSERT INTO likes (user_id, liked_book_id) VALUES (2, 1);
 INSERT INTO likes (user_id, liked_book_id) VALUES (2, 2);
 INSERT INTO likes (user_id, liked_book_id) VALUES (2, 3);
 INSERT INTO likes (user_id, liked_book_id) VALUES (2, 5);
-
+//행 개수 확인하는 법
+SELECT count(*) FROM BookStore.likes WHERE liked_book_id=1;
 
 // 좋아요 삭제
 DELETE FROM likes WHERE user_id = 1 AND liked_book_id = 3;
@@ -89,3 +90,5 @@ SELECT last_insert_id();
 
 // 결제된 도서 장바구니 삭제
 DELETE FROM cartItems WHERE id IN (1,2,3); 
+
+
