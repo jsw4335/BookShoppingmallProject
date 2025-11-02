@@ -24,7 +24,11 @@ const join = (req, res) => {
             console.log(err);
             return res.status(StatusCodes.BAD_REQUEST).end(); //BAD request
         }
-        return res.status(StatusCodes.CREATED).json(results); //설계에서 아직 res.body에 아무것도 전달하지 않는다고 적어놓긴함
+        if (results.affectedRows) {
+            return res.status(StatusCodes.CREATED).json(results); //설계에서 아직 res.body에 아무것도 전달하지 않는다고 적어놓긴함
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).end();
+        }
     });
 };
 

@@ -35,6 +35,9 @@ const allBooks = (req, res) => {
         }
         console.log(results);
         if (results.length) {
+            results.map(function (result) {
+                result.pubDate = result.pub_date;
+            });
             allBooksRes.books = results;
         } else {
             return res.status(StatusCodes.NOT_FOUND).end();
