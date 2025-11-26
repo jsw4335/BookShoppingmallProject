@@ -1,6 +1,14 @@
+const cors = require("cors");
+
 const express = require("express");
 const app = express();
 
+app.use(
+    cors({
+        origin: "http://localhost:3000", // React 개발 서버
+        credentials: true, // 쿠키 허용 여부
+    })
+);
 const dotenv = require("dotenv");
 dotenv.config();
 

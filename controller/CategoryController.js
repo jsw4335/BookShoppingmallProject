@@ -9,7 +9,12 @@ const allCategory = (req, res) => {
             console.log(err);
             return res.status(StatusCodes.BAD_REQUEST).end();
         }
-        return res.status(StatusCodes.OK).json(results);
+        // 프론트에 맞게 key 변경
+        const categories = results.map((item) => ({
+            id: item.category_id,
+            name: item.category_name,
+        }));
+        return res.status(StatusCodes.OK).json(categories);
     });
 };
 
