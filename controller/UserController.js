@@ -63,7 +63,7 @@ const login = (req, res) => {
                 httpOnly: true,
             });
             console.log(token); //토큰이 잘 오는지 확인하려고 나중에는 삭제할 예정
-            return res.status(StatusCodes.OK).json(results);
+            return res.status(StatusCodes.OK).json({...results[0],token:token});
         } else {
             return res.status(StatusCodes.UNAUTHORIZED).end(); // 401 : Unauthorized (미인증상태) 403 : Forbidden(접근 권리 없음)
         }
