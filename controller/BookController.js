@@ -8,7 +8,9 @@ const allBooks = (req, res) => {
     let allBooksRes = {};
     //카테고리별 신간 여부,전체도서목록조회
     let { category_id, newBooks, limit, currentPage } = req.query;
-
+    if (req.query.news !== undefined) {
+        newBooks = req.query.news;  // news 값을 newBooks로 대체
+    }
     //limit : page 당 도서수 ex .3
     //currentPage : 현재 몇 페이지 ex. 1,2,3
     //offset : ex) 0,3,6
@@ -50,10 +52,10 @@ const allBooks = (req, res) => {
             console.log(err);
             return res.status(StatusCodes.BAD_REQUEST).end();
         }
-        let pagenation = {};
-        pagenation.currentPage = parseInt(currentPage);
-        pagenation.totalConut = results[0]["found_rows()"];
-        allBooksRes.pagenation = pagenation;
+        const pagination = {};
+        pagination.currentPage = parseInt(currentPage);
+        pagination.totalCount = results[0]["found_rows()"];
+        allBooksRes.pagination = pagination;
         return res.status(StatusCodes.OK).json(allBooksRes);
     });
 };
