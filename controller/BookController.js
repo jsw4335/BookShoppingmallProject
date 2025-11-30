@@ -7,10 +7,8 @@ const jwt = require("jsonwebtoken");
 const allBooks = (req, res) => {
     let allBooksRes = {};
     //카테고리별 신간 여부,전체도서목록조회
-    let { category_id, newBooks, limit, currentPage } = req.query;
-    if (req.query.news !== undefined) {
-        newBooks = req.query.news;  // news 값을 newBooks로 대체
-    }
+    let { category_id, limit, currentPage } = req.query;
+    let newBooks = req.query.news !== undefined;
     //limit : page 당 도서수 ex .3
     //currentPage : 현재 몇 페이지 ex. 1,2,3
     //offset : ex) 0,3,6
@@ -30,34 +28,39 @@ const allBooks = (req, res) => {
     }
     sql += ` LIMIT ? OFFSET ?`;
     values.push(parseInt(limit), offset);
-    conn.query(sql, values, (err, results) => {
-        if (err) {
-            console.log(err);
-            // return res.status(StatusCodes.BAD_REQUEST).end();
-        }
-        console.log(results);
-        if (results.length) {
-            results.map(function (result) {
-                result.pubDate = result.pub_date;
-            });
-            allBooksRes.books = results;
-        } else {
-            return res.status(StatusCodes.NOT_FOUND).end();
-        }
-    });
 
-    sql = `SELECT found_rows()`;
     conn.query(sql, values, (err, results) => {
         if (err) {
             console.log(err);
             return res.status(StatusCodes.BAD_REQUEST).end();
         }
-        const pagination = {};
-        pagination.currentPage = parseInt(currentPage);
-        pagination.totalCount = results[0]["found_rows()"];
-        allBooksRes.pagination = pagination;
-        return res.status(StatusCodes.OK).json(allBooksRes);
+        console.log(results);
+
+        if (!results.length) {
+            return res.status(StatusCodes.NOT_FOUND).end();
+            
+        }
+        results.map(function (result) {
+                result.pubDate = result.pub_date;
+            });
+            allBooksRes.books = results;
+
+            let sql2 = `SELECT found_rows()`;
+            conn.query(sql2, (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.status(StatusCodes.BAD_REQUEST).end();
+            }
+            const pagination = {};
+            pagination.currentPage = parseInt(currentPage);
+            pagination.totalCount = results[0]["found_rows()"];
+            allBooksRes.pagination = pagination;
+            return res.status(StatusCodes.OK).json(allBooksRes);
     });
+    });
+
+    
+    
 };
 
 const bookDetail = (req, res) => {
