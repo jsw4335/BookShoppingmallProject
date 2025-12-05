@@ -95,7 +95,10 @@ const bookDetail = (req, res) => {
             }
 
             if (results[0]) {
-                return res.status(StatusCodes.OK).json(results);
+                const book = results[0];
+                book.categoryName = book.category_name;
+                book.pubDate=book.pub_date
+                return res.status(StatusCodes.OK).json(book);
             } else {
                 return res.status(StatusCodes.NOT_FOUND).end();
             }
@@ -118,7 +121,10 @@ const bookDetail = (req, res) => {
             }
 
             if (results[0]) {
-                return res.status(StatusCodes.OK).json(results);
+                const book = results[0];
+                book.categoryName = book.category_name;
+                book.pubDate=book.pub_date
+                return res.status(StatusCodes.OK).json(book);
             } else {
                 return res.status(StatusCodes.NOT_FOUND).end();
             }
